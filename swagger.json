@@ -1,0 +1,3168 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Blog post",
+    "description": "Blog post management API",
+    "termsOfService": "",
+    "contact": {
+      "name": "M2M Team",
+      "email": "team@mind2minds.com",
+      "url": ""
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": ""
+    },
+    "securityDefinitions": {
+      "Bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "paths": {
+    "/api/users": {
+      "get": {
+        "tags": ["Users"],
+        "description": "Get users",
+        "operationId": "getUsers",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Users"],
+        "description": "Create users",
+        "operationId": "createUsers",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUsers"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "New user were created successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "User already exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "description": "Get user by id",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Founded user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "description": "Update user",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUsers"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Updated users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid user"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "description": "Delete user",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is deleted successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/search": {
+      "get": {
+        "tags": ["Users"],
+        "description": "Search users",
+        "operationId": "searchUser",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/sign-in": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Sign-in user",
+        "operationId": "SignInUser",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInUsers"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "User Sing-in successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/token"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid user credentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/roles": {
+      "get": {
+        "tags": ["Roles"],
+        "description": "Get all roles",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Roles"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Roles"],
+        "description": "Create Role",
+        "operationId": "createRole",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRole"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "New Role were created successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Role already exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/roles/{id}": {
+      "get": {
+        "tags": ["Roles"],
+        "description": "Get role by id",
+        "operationId": "getRoleById",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Founded role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Roles"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Roles"],
+        "description": "Update Role",
+        "operationId": "updateRole",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRole"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Role updated successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Role already exist"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Roles"],
+        "description": "Delete Role",
+        "operationId": "deleteRole",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role deleted successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Role doesn't exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/permissions": {
+      "get": {
+        "tags": ["Permissions"],
+        "description": "Get all permissions",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permissions"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Permissions"],
+        "description": "Create Permission",
+        "operationId": "createPermission",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermission"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "New Permission is created successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Permission is already exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/permissions/{id}": {
+      "get": {
+        "tags": ["Permissions"],
+        "description": "Get role by id",
+        "operationId": "getPermissionById",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Founded Permission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permissions"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Permissions"],
+        "description": "Update Permission",
+        "operationId": "updatePermission",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermission"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Permission updated successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Permission already exist"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Permissions"],
+        "description": "Delete Permission",
+        "operationId": "deletePermission",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission deleted successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Permission doesn't exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/entity-role-permissions": {
+      "get": {
+        "tags": ["EntityRolePermissions"],
+        "description": "Get all permissions of role",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all permissions ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityRolePermissions"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["EntityRolePermissions"],
+        "description": "Create EntityRolePermission",
+        "operationId": "createEntityRolePermission",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEntityRolePermission"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "New Permission is created successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Permission is already exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/entity-role-permissions/{id}": {
+      "get": {
+        "tags": ["EntityRolePermissions"],
+        "description": "Get permission by id",
+        "operationId": "getEntityRolePermissionById",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Founded Permission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityRolePermissions"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["EntityRolePermissions"],
+        "description": "Update Permission",
+        "operationId": "updatePermission",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermission"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Permission updated successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Permission already exist"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["EntityRolePermissions"],
+        "description": "Delete Permission",
+        "operationId": "deleteEntityRolePermission",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission deleted successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Permission doesn't exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/entity-role-permissions/permission": {
+      "post": {
+        "tags": ["EntityRolePermissions"],
+        "description": "Permission to the users as per their role",
+        "operationId": "PermissionsOfRole",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionsOfRole"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid user credentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "tags": ["Categories"],
+        "description": "Get all categories",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Categories"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Categories"],
+        "description": "Create Category",
+        "operationId": "createCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategory"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "New Category is created successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Category is already exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories/{id}": {
+      "get": {
+        "tags": ["Categories"],
+        "description": "Get Category by id",
+        "operationId": "getCategoryById",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Founded Category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Categories"],
+        "description": "Update Category",
+        "operationId": "updateCategory",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategory"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Category updated successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Category already exist"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Categories"],
+        "description": "Delete Category",
+        "operationId": "deleteCategory",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category deleted successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Category doesn't exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/medias": {
+      "get": {
+        "tags": ["Medias"],
+        "description": "Get all medias",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all medias",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadMedia"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/medias/{imageName}": {
+      "post": {
+        "tags": ["Medias"],
+        "description": "Upload Media",
+        "operationId": "UploadMedia",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadMedia"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Media uploaded successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Media not uploaded successfully"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Medias"],
+        "description": "Delete Media",
+        "operationId": "deleteMedia",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Media deleted successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Media doesn't exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts": {
+      "get": {
+        "tags": ["Posts"],
+        "description": "Get all posts",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/securitySchemes/Authorization"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Posts"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Posts"],
+        "description": "Create Post",
+        "operationId": "createPost",
+        "security": {
+          "Bearer": []
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePost"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "New Post is created successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Post is already exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/{id}": {
+      "get": {
+        "tags": ["Posts"],
+        "description": "Get Post by id",
+        "operationId": "getPostById",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Founded Post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Posts"],
+        "description": "Update Post",
+        "operationId": "updatePost",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePost"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Post updated successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Post already exist"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Posts"],
+        "description": "Delete Post",
+        "operationId": "deletePost",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post deleted successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Post doesn't exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/search": {
+      "get": {
+        "tags": ["Posts"],
+        "description": "Search posts",
+        "operationId": "searchPost",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Posts"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/published": {
+      "get": {
+        "tags": ["Posts"],
+        "description": "Get list of all published posts",
+        "operationId": "publishedPost",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of posts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Posts"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/{slug}": {
+      "get": {
+        "tags": ["Posts"],
+        "description": "Get Post by slug",
+        "operationId": "getPostBySlug",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Founded Post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/subscribers": {
+      "get": {
+        "tags": ["Subscribers"],
+        "description": "Get subscribers",
+        "operationId": "getSubscribers",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all subscribers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscribers"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Subscribers"],
+        "description": "Create subscriber",
+        "operationId": "createSubscriber",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubscriber"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "New subscriber is created successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Subscriber already exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/subscribers/{id}": {
+      "get": {
+        "tags": ["Subscribers"],
+        "description": "Get subscriber by id",
+        "operationId": "getSubscriberById",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Founded subscriber",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscribers"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Subscribers"],
+        "description": "Update subscriber",
+        "operationId": "updateSubscriber",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriber"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Updated users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscribers"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid subscriber"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Subscribers"],
+        "description": "Delete subscriber",
+        "operationId": "deleteSubscriber",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscriber is deleted successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/subscriber/search": {
+      "get": {
+        "tags": ["Subscribers"],
+        "description": "Search subscriber",
+        "operationId": "searchSubscriber",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of subscriber",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subscribers"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/subscribers/sign-in": {
+      "post": {
+        "tags": ["Subscribers"],
+        "description": "Sign-in subscriber",
+        "operationId": "SignInSubscriber",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInSubscriber"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Subsriber Sing-in successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/token"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid subscriber credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid subscriber credentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post-comments": {
+      "post": {
+        "tags": ["PostComments"],
+        "description": "Create comment",
+        "operationId": "createComment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostComments"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "New comment is created successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Comment is not created"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post-comments/{id}": {
+      "put": {
+        "tags": ["PostComments"],
+        "description": "Update comment status",
+        "operationId": "updateComment",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostComments"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Updated comment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostComments"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid comment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["PostComments"],
+        "description": "Delete comment",
+        "operationId": "deleteComment",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment is deleted successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post-comments/{postId}": {
+      "get": {
+        "tags": ["PostComments"],
+        "description": "Get comments by post id",
+        "operationId": "getCommentByPostId",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Founded comments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostComments"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post-reviews": {
+      "post": {
+        "tags": ["PostReviews"],
+        "description": "Create review",
+        "operationId": "createReview",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostReviews"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "New review is created successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Review is not created"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post-reviews/{id}": {
+      "put": {
+        "tags": ["PostReviews"],
+        "description": "Update review status",
+        "operationId": "updateReview",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostReviews"
+              }
+            }
+          },
+          "required": "true"
+        },
+        "responses": {
+          "200": {
+            "description": "Updated review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostReviews"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid review"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["PostReviews"],
+        "description": "Delete review",
+        "operationId": "deleteReview",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Review is deleted successfully"
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/post-reviews/{postId}": {
+      "get": {
+        "tags": ["PostReviews"],
+        "description": "Get reviews by post id",
+        "operationId": "getReviewByPostId",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/token"
+            },
+            "required": "true",
+            "description": "User login token"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Founded reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostReviews"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "id": {
+        "type": "integer",
+        "description": "unique identification number",
+        "example": "1234"
+      },
+      "firstName": {
+        "type": "string",
+        "description": "First name of the user",
+        "example": "Jon"
+      },
+      "lastName": {
+        "type": "string",
+        "description": "Last name of the user",
+        "example": "doe"
+      },
+      "email": {
+        "type": "string",
+        "description": "email of the user",
+        "example": "test123@test.com"
+      },
+      "password": {
+        "type": "string"
+      },
+      "profileImageUrl": {
+        "type": "string"
+      },
+      "lastLoggedIn": {
+        "type": "string"
+      },
+      "roleId": {
+        "type": "integer"
+      },
+      "name": {
+        "type": "string"
+      },
+      "key": {
+        "type": "string"
+      },
+      "entity": {
+        "type": "string"
+      },
+      "permissions": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "path": {
+        "type": "string"
+      },
+      "mediaType": {
+        "type": "string"
+      },
+      "mediaUrl": {
+        "type": "string"
+      },
+      "categoryId": {
+        "type": "integer"
+      },
+      "author": {
+        "type": "integer"
+      },
+      "modifiedBy": {
+        "type": "integer"
+      },
+      "postType": {
+        "type": "string",
+        "enum": ["NORMAL", "STEPS"],
+        "default": "NORMAL"
+      },
+      "title": {
+        "type": "text"
+      },
+      "slug": {
+        "type": "string"
+      },
+      "content": {
+        "type": "text"
+      },
+      "mediaPosition": {
+        "type": "string",
+        "enum": ["TOP", "BOTTOM"],
+        "default": "TOP"
+      },
+      "shortDescription": {
+        "type": "text"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["PENDING", "REVIEW", "PUBLISH", "DELETE"],
+        "default": "PENDING"
+      },
+      "publishedBy": {
+        "type": "string"
+      },
+      "links": {
+        "type": "text"
+      },
+      "subscriberStatus": {
+        "type": "string",
+        "enum": ["PENDING", "ACTIVE", "INACTIVE", "DELETE"],
+        "default": "PENDING"
+      },
+      "gender": {
+        "type": "string",
+        "enum": ["MALE", "FEMALE", "OTHERS"],
+        "default": ""
+      },
+      "postId": {
+        "type": "integer"
+      },
+      "subscriberId": {
+        "type": "integer"
+      },
+      "comment": {
+        "type": "text"
+      },
+      "review": {
+        "type": "text"
+      },
+      "rating": {
+        "type": "integer"
+      },
+      "Users": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "firstName": {
+            "$ref": "#/components/schemas/firstName"
+          },
+          "lastName": {
+            "$ref": "#/components/schemas/lastName"
+          },
+          "email": {
+            "$ref": "#/components/schemas/email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          },
+          "profileImageUrl": {
+            "$ref": "#/components/schemas/profileImageUrl"
+          },
+          "lastLoggedIn": {
+            "$ref": "#/components/schemas/lastLoggedIn"
+          },
+          "roleId": {
+            "$ref": "#/components/schemas/roleId"
+          }
+        }
+      },
+      "CreateUsers": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "$ref": "#/components/schemas/firstName"
+          },
+          "lastName": {
+            "$ref": "#/components/schemas/lastName"
+          },
+          "email": {
+            "$ref": "#/components/schemas/email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          },
+          "profileImageUrl": {
+            "$ref": "#/components/schemas/profileImageUrl"
+          },
+          "roleId": {
+            "$ref": "#/components/schemas/roleId"
+          }
+        }
+      },
+      "UpdateUsers": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "$ref": "#/components/schemas/firstName"
+          },
+          "lastName": {
+            "$ref": "#/components/schemas/lastName"
+          },
+          "email": {
+            "$ref": "#/components/schemas/email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          },
+          "profileImageUrl": {
+            "$ref": "#/components/schemas/profileImageUrl"
+          },
+          "lastLoggedIn": {
+            "$ref": "#/components/schemas/lastLoggedIn"
+          },
+          "roleId": {
+            "$ref": "#/components/schemas/roleId"
+          }
+        }
+      },
+      "SignInUsers": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          }
+        }
+      },
+      "Roles": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/name"
+          }
+        }
+      },
+      "CreateRole": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/name"
+          }
+        }
+      },
+      "Permissions": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "key": {
+            "$ref": "#/components/schemas/key"
+          }
+        }
+      },
+      "CreatePermission": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "key": {
+            "$ref": "#/components/schemas/key"
+          }
+        }
+      },
+      "UpdatePermission": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "key": {
+            "$ref": "#/components/schemas/key"
+          }
+        }
+      },
+      "EntityRolePermissions": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "entity": {
+            "$ref": "#/components/schemas/entity"
+          },
+          "roleId": {
+            "$ref": "#/components/schemas/roleId"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/permissions"
+          }
+        }
+      },
+      "CreateEntityRolePermission": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "$ref": "#/components/schemas/entity"
+          },
+          "roleId": {
+            "$ref": "#/components/schemas/roleId"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/permissions"
+          }
+        }
+      },
+      "UpdateEntityRolePermission": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "$ref": "#/components/schemas/entity"
+          },
+          "roleId": {
+            "$ref": "#/components/schemas/roleId"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/permissions"
+          }
+        }
+      },
+      "PermissionsOfRole": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "$ref": "#/components/schemas/entity"
+          },
+          "roleId": {
+            "$ref": "#/components/schemas/roleId"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/permissions"
+          }
+        }
+      },
+      "Categories": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/name"
+          }
+        }
+      },
+      "CreateCategory": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/name"
+          }
+        }
+      },
+      "Medias": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "name": {
+            "$ref": "#/components/schemas/name"
+          }
+        }
+      },
+      "UploadMedia": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/name"
+          },
+          "type": {
+            "$ref": "#/components/schemas/type"
+          },
+          "path": {
+            "$ref": "#/components/schemas/path"
+          },
+          "mediaType": {
+            "$ref": "#/components/schemas/mediaType"
+          },
+          "mediaUrl": {
+            "$ref": "#/components/schemas/mediaUrl"
+          }
+        }
+      },
+      "Posts": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "categoryId": {
+            "$ref": "#/components/schemas/categoryId"
+          },
+          "author": {
+            "$ref": "#/components/schemas/author"
+          },
+          "modifiedBy": {
+            "$ref": "#/components/schemas/modifiedBy"
+          },
+          "postType": {
+            "$ref": "#/components/schemas/postType"
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "slug": {
+            "$ref": "#/components/schemas/slug"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content"
+          },
+          "mediaUrl": {
+            "$ref": "#/components/schemas/mediaUrl"
+          },
+          "mediaPosition": {
+            "$ref": "#/components/schemas/mediaPosition"
+          },
+          "shortDescription": {
+            "$ref": "#/components/schemas/shortDescription"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status"
+          },
+          "publishedBy": {
+            "$ref": "#/components/schemas/publishedBy"
+          },
+          "links": {
+            "$ref": "#/components/schemas/links"
+          }
+        }
+      },
+      "CreatePost": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "$ref": "#/components/schemas/categoryId"
+          },
+          "author": {
+            "$ref": "#/components/schemas/author"
+          },
+          "modifiedBy": {
+            "$ref": "#/components/schemas/modifiedBy"
+          },
+          "postType": {
+            "$ref": "#/components/schemas/postType"
+          },
+          "title": {
+            "$ref": "#/components/schemas/title"
+          },
+          "slug": {
+            "$ref": "#/components/schemas/slug"
+          },
+          "content": {
+            "$ref": "#/components/schemas/content"
+          },
+          "mediaUrl": {
+            "$ref": "#/components/schemas/mediaUrl"
+          },
+          "mediaPosition": {
+            "$ref": "#/components/schemas/mediaPosition"
+          },
+          "shortDescription": {
+            "$ref": "#/components/schemas/shortDescription"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status"
+          },
+          "publishedBy": {
+            "$ref": "#/components/schemas/publishedBy"
+          },
+          "links": {
+            "$ref": "#/components/schemas/links"
+          }
+        }
+      },
+      "Subscribers": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "firstName": {
+            "$ref": "#/components/schemas/firstName"
+          },
+          "lastName": {
+            "$ref": "#/components/schemas/lastName"
+          },
+          "email": {
+            "$ref": "#/components/schemas/email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/gender"
+          },
+          "status": {
+            "$ref": "#/components/schemas/subscriberStatus"
+          }
+        }
+      },
+      "CreateSubscribers": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "$ref": "#/components/schemas/firstName"
+          },
+          "lastName": {
+            "$ref": "#/components/schemas/lastName"
+          },
+          "email": {
+            "$ref": "#/components/schemas/email"
+          },
+          "password": {
+            "$ref": "#/components/schemas/password"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/gender"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status"
+          }
+        }
+      },
+      "PostComments": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "postId": {
+            "$ref": "#/components/schemas/postId"
+          },
+          "subscriberId": {
+            "$ref": "#/components/schemas/subscriberId"
+          },
+          "comment": {
+            "$ref": "#/components/schemas/comment"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status"
+          }
+        }
+      },
+      "CreatePostComments": {
+        "type": "object",
+        "properties": {
+          "postId": {
+            "$ref": "#/components/schemas/postId"
+          },
+          "subscriberId": {
+            "$ref": "#/components/schemas/subscriberId"
+          },
+          "comment": {
+            "$ref": "#/components/schemas/comment"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status"
+          }
+        }
+      },
+      "PostReviews": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "postId": {
+            "$ref": "#/components/schemas/postId"
+          },
+          "subscriberId": {
+            "$ref": "#/components/schemas/subscriberId"
+          },
+          "review": {
+            "$ref": "#/components/schemas/review"
+          },
+          "rating": {
+            "$ref": "#/components/schemas/rating"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status"
+          }
+        }
+      },
+      "CreatePostReviews": {
+        "type": "object",
+        "properties": {
+          "postId": {
+            "$ref": "#/components/schemas/postId"
+          },
+          "subscriberId": {
+            "$ref": "#/components/schemas/subscriberId"
+          },
+          "review": {
+            "$ref": "#/components/schemas/review"
+          },
+          "rating": {
+            "$ref": "#/components/schemas/rating"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "msg": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
